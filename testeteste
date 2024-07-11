@@ -48,4 +48,25 @@ function tocarAudioERegistrarResposta(audio, sentenca1, sentenca2) {
 // Configuração dos testes perceptivos
 for (let i = 0; i < testesPerceptivos.length; i++) {
     let teste = testesPerceptivos[i];
-    newTrial(`TestePerceptiv
+    newTrial(`TestePerceptivo${i + 1}`,
+        tocarAudioERegistrarResposta(teste.audio, teste.sentenca1, teste.sentenca2)
+    );
+}
+
+// Tela final de agradecimento
+newTrial("Final",
+    newText("Obrigado por participar do experimento!").print(),
+    newButton("Finalizar").print().wait()
+);
+
+// Função para tocar áudio
+function playAudio(audio) {
+    let audioObj = new Audio(`resources/${audio}`);
+    audioObj.play();
+}
+
+// Função para obter a duração do áudio
+function getAudioDuration(audio) {
+    let audioObj = new Audio(`resources/${audio}`);
+    return audioObj.duration * 1000; // Em milissegundos
+}
