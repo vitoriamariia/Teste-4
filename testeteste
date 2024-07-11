@@ -71,3 +71,4 @@ function getAudioDuration(audio) {
     let audioObj = new Audio(`resources/${audio}`);
     return audioObj.duration * 1000; // Em milissegundos
 }
+
