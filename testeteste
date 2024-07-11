@@ -1,0 +1,51 @@
+PennController.ResetPrefix(null);
+PennController.DebugOff();
+
+Sequence("Participantes", "Instrucoes", "TestePerceptivo1", "TestePerceptivo2", "Final", SendResults());
+
+// Definição dos arquivos de áudio e sentenças para os testes perceptivos
+var testesPerceptivos = [
+    { audio: "som1.wav", sentenca1: "Sentença A1", sentenca2: "Sentença A2" },
+    { audio: "som2.wav", sentenca1: "Sentença B1", sentenca2: "Sentença B2" }
+];
+
+// Lista para armazenar os tempos de resposta
+var temposResposta = [];
+
+// Tela inicial para coleta de informações do participante
+newTrial("Participantes",
+    newText("Ola! Seja bem-vindo ao nosso experimento!").print(),
+    newTextInput("SeuNome").print().log(),
+    newDropDown("curso", "Selecione seu curso")
+        .add("Engenharia", "Ciências e Tecnologias", "Letras")
+        .print()
+        .log(),
+    newButton("Vamos para as instruções").print().wait()
+);
+
+// Tela de instruções
+newTrial("Instrucoes",
+    newText("Leia com atenção:").print(),
+    newText("Você ouvirá um som seguido por duas opções de sentenças. Escolha a opção que melhor se encaixa com o som ouvido.").print(),
+    newButton("Iniciar Teste").print().wait()
+);
+
+// Função para tocar o áudio e registrar tempo de resposta
+function tocarAudioERegistrarResposta(audio, sentenca1, sentenca2) {
+    return newFunction(function(){
+        let startTime = Date.now();
+        playAudio(audio);
+        newText(sentenca1).print().wait(getAudioDuration(audio));
+        newText(sentenca2).print().wait();
+        getButton("sentenca1").print().wait();
+        getButton("sentenca2").print().wait();
+        getButton("sentenca1","sentenca2").log().wait();
+        let endTime = Date.now();
+        temposResposta.push({audio: audio, tempo: endTime - startTime});
+    });
+}
+
+// Configuração dos testes perceptivos
+for (let i = 0; i < testesPerceptivos.length; i++) {
+    let teste = testesPerceptivos[i];
+    newTrial(`TestePerceptiv
