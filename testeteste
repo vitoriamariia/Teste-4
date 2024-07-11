@@ -42,6 +42,7 @@ function tocarAudioERegistrarResposta(audio, sentenca1, sentenca2) {
         getButton("sentenca1","sentenca2").log().wait();
         let endTime = Date.now();
         temposResposta.push({audio: audio, tempo: endTime - startTime});
+        endCurrentTrial();
     });
 }
 
